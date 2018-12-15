@@ -1,0 +1,5 @@
+*.json
+.gems/
+.kitchen/
+output/
+packer_cache/
