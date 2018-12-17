@@ -41,4 +41,4 @@ test create setup converge destroy verify list: .gems
 
 .gems: Gemfile
 	bundle install --path $@
-	touch $<
+	touch $@ # Be sure the target is newer than the source
