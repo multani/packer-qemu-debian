@@ -40,6 +40,7 @@ apt-get update
 apt-get install --no-install-recommends \
     acpid \
     cloud-init \
+    cloud-guest-utils \
     lsb-release \
     net-tools \
     qemu-guest-agent \
