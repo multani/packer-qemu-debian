@@ -80,14 +80,6 @@ provisioners:
   inline:
     - sh -cx "sudo bash /tmp/configure-qemu-image.sh"
 
-- type: shell
-  # Some debug information
-  inline:
-    - sh -cx "hostname"
-    - sh -cx "sudo fdisk -l"
-    - sh -cx "free -mh"
-    - sh -cx "locale -a"
-
 post-processors:
 - type: manifest
   keep_input_artifact: true
