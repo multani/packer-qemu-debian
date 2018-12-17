@@ -135,15 +135,19 @@ apt-get clean
 find \
   /var/cache/apt \
   /var/lib/apt \
-  /var/log \
   /var/lib/dhcp \
+  /var/log \
   -mindepth 1 -print -delete
 
 rm -f \
+  /etc/adjtime \
   /etc/hostname \
   /etc/hosts \
+  /etc/machine-id \
+  /etc/ssh/*key* \
+  /var/cache/ldconfig/aux-cache \
+  /var/lib/systemd/random-seed \
   ~/.bash_history \
-  /etc/ssh/*key \
   ${SUDO_USER}/.bash_history
 
 
