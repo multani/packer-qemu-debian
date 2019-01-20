@@ -1,5 +1,10 @@
 # Releases
 
+## 9.6.0-3
+
+* Fix the reinitialisation of /etc/machine-id.
+  The file must be there but empty.
+
 ## 9.6.0-2
 
 * Add the `cloud-guest-utils` in the image.

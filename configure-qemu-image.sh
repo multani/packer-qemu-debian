@@ -143,13 +143,18 @@ rm -f \
   /etc/adjtime \
   /etc/hostname \
   /etc/hosts \
-  /etc/machine-id \
   /etc/ssh/*key* \
   /var/cache/ldconfig/aux-cache \
   /var/lib/systemd/random-seed \
   ~/.bash_history \
   ${SUDO_USER}/.bash_history
 
+
+# From https://www.freedesktop.org/software/systemd/man/machine-id.html:
+# For operating system images which are created once and used on multiple
+# machines, [...] /etc/machine-id should be an empty file in the generic file
+# system image.
+truncate -s 0 /etc/machine-id
 
 # Recreate some useful files.
 touch /var/log/lastlog
