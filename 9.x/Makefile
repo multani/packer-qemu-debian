@@ -1,4 +1,4 @@
-PACKER_FILE = debian.json
+PACKER_FILE = packer.json
 
 OUTPUT_DIR = output
 OUTPUT_NAME = debian.qcow2
