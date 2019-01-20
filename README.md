@@ -14,8 +14,8 @@ instead of building images on your favorite cloud provider.
 You can start with the following configuration:
 
 * it downloads the image built using this repository from Github
-* configure a new QCOW disk with additional disk space-friendly settings
-* runs a basic provisioner
+* configures a new, larger QCOW disk to host the VM while Packer is building
+* runs a basic provisioner (you may want to change this!)
 
 ```json
 {
