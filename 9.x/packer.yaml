@@ -11,8 +11,8 @@ description: |
 variables:
   # Current images in https://cdimage.debian.org/cdimage/release/
   # Previous versions are in https://cdimage.debian.org/cdimage/archive/
-  source_iso: https://cdimage.debian.org/cdimage/release/9.6.0/amd64/iso-cd/debian-9.6.0-amd64-netinst.iso
-  source_checksum_url: https://cdimage.debian.org/cdimage/release/9.6.0/amd64/iso-cd/SHA256SUMS
+  source_iso: https://cdimage.debian.org/cdimage/release/9.7.0/amd64/iso-cd/debian-9.7.0-amd64-netinst.iso
+  source_checksum_url: https://cdimage.debian.org/cdimage/release/9.7.0/amd64/iso-cd/SHA256SUMS
 
   output_dir: output
   output_name: debian.qcow2

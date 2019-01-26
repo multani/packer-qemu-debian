@@ -1,5 +1,9 @@
 # Releases
 
+## 9.7.0-1
+
+* Follow new Debian release 9.7.0
+
 ## 9.6.0-3
 
 * Fix the reinitialisation of /etc/machine-id.
