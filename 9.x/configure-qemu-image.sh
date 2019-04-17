@@ -88,6 +88,15 @@ system_info:
    ssh_svcname: ssh
 EOF
 
+# Don't let cloud-init to take over the network configuration.
+# This prevents to have more fine-grained configuration and enable lot of
+# automagic configuration on interfaces that could (should!) be managed outside
+# of cloud-init.
+cat <<EOF > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+network:
+  config: disabled
+EOF
+
 
 # Prevent clearing the terminal when systemd invokes the initial getty
 # From: https://wiki.debian.org/systemd#Missing_startup_messages_on_console.28tty1.29_after_the_boot
@@ -139,7 +148,8 @@ find \
   /var/log \
   -mindepth 1 -print -delete
 
-rm -f \
+rm -vf \
+  /etc/network/interfaces.d/50-cloud-init.cfg \
   /etc/adjtime \
   /etc/hostname \
   /etc/hosts \
@@ -164,6 +174,10 @@ chmod 664 /var/log/lastlog
 
 # Free all unused storage block. This makes the final image smaller.
 fstrim --all --verbose
+
+
+# Display some usage information
+df -h
 
 
 # Finally, remove this very script.
