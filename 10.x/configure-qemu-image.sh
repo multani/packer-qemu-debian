@@ -11,23 +11,6 @@ IFS=$'\n\t'
 sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=1/' /etc/default/grub
 update-grub
 
-
-# Configure cloud-init to allow image instanciation-time customization.
-# The only cloud-init "datasources" that make sense for this image are:
-#
-# * "None": this is the last resort when nothing works. This prevents
-#   cloud-init from exiting with an error because it didn't find any datasource
-#   at all. This in turns allow to start the QEMU image with no
-#
-# * "NoCloud": this fetches the cloud-init data from a ISO disk mounted into
-#   the new VM or from other non-network resources. See
-#   https://cloudinit.readthedocs.io/en/latest/topics/datasources/nocloud.html
-#   for more information.
-#
-# Ultimately, this configures "datasource_list" in
-# /etc/cloud/cloud.cfg.d/90_dpkg.cfg.
-echo "cloud-init	cloud-init/datasources	multiselect	NoCloud, None" | debconf-set-selections
-
 # Configure localepurge to remove unused locales. This makes the image smaller.
 echo "localepurge	localepurge/use-dpkg-feature	boolean	true" | debconf-set-selections
 echo "localepurge	localepurge/nopurge	multiselect	en, en_US.UTF-8, fr, fr_CH.UTF-8, fr_FR.UTF-8"  | debconf-set-selections
@@ -97,6 +80,22 @@ network:
   config: disabled
 EOF
 
+# Configure cloud-init to allow image instanciation-time customization.
+# The only cloud-init "datasources" that make sense for this image are:
+#
+# * "None": this is the last resort when nothing works. This prevents
+#   cloud-init from exiting with an error because it didn't find any datasource
+#   at all. This in turns allow to start the QEMU image with no
+#
+# * "NoCloud": this fetches the cloud-init data from a ISO disk mounted into
+#   the new VM or from other non-network resources. See
+#   https://cloudinit.readthedocs.io/en/latest/topics/datasources/nocloud.html
+#   for more information.
+cat <<EOF > /etc/cloud/cloud.cfg.d/99-nocloud-datasource.cfg
+datasource_list:
+- NoCloud
+- None
+EOF
 
 # Prevent clearing the terminal when systemd invokes the initial getty
 # From: https://wiki.debian.org/systemd#Missing_startup_messages_on_console.28tty1.29_after_the_boot
