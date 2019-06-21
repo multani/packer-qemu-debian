@@ -19,7 +19,7 @@ platforms:
     driver:
       image:
         - file: <%= ENV['OUTPUT'] || './output/debian.qcow2' %>
-      #display: gtk
+      display: gtk
       hostname: kitchen-ci.test
       username: debian
       password: debian

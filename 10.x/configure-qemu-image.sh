@@ -15,6 +15,10 @@ update-grub
 echo "localepurge	localepurge/use-dpkg-feature	boolean	true" | debconf-set-selections
 echo "localepurge	localepurge/nopurge	multiselect	en, en_US.UTF-8, fr, fr_CH.UTF-8, fr_FR.UTF-8"  | debconf-set-selections
 
+# Disable floppy support - it's (probably!) not needed and prevent spurious warnings from displaying.
+echo "blacklist floppy" > /etc/modprobe.d/blacklist-floppy.conf
+rmmod floppy
+update-initramfs -u
 
 # Default packages installed, which makes the image slightly more than just a
 # fresh Debian install, and ready to be started as a "cloud image".
@@ -123,6 +127,8 @@ systemctl enable acpid
 # See https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/chap-qemu_guest_agent
 systemctl enable qemu-guest-agent
 
+# Remove all but the lastest kernel
+apt-get autoremove --yes --purge $(dpkg -l "linux-image*" | grep "^ii" | grep -v linux-image-amd64 | head -n -1 | cut -d " " -f 3)
 
 # Finally, cleanup all the things
 apt-get install --yes deborphan # Let's try to remove some more

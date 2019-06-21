@@ -36,6 +36,9 @@ build: validate $(PACKER_FILE)
 validate: $(PACKER_FILE)
 	packer validate $(PACKER_FLAGS) $(PACKER_FILE)
 
+$(KITCHEN_DISK): $(KITCHEN_BASE_IMAGE)
+	qemu-img create -f qcow2 -o backing_file=$< $@ 10G
+
 test create setup converge destroy verify list: .gems
 	OUTPUT=./$(OUTPUT) bundle exec kitchen $@
 
