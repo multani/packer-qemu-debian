@@ -97,6 +97,9 @@ datasource_list:
 - None
 EOF
 
+# Configure cloud-init to start once multi-user has been started.
+systemctl add-wants multi-user.target cloud-init.target
+
 # Prevent clearing the terminal when systemd invokes the initial getty
 # From: https://wiki.debian.org/systemd#Missing_startup_messages_on_console.28tty1.29_after_the_boot
 SYSTEMD_NO_CLEAR_FILE=/etc/systemd/system/getty@tty1.service.d/no-clear.conf
