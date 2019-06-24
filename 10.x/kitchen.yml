@@ -1,0 +1,33 @@
+---
+driver:
+  name: qemu
+
+verifier:
+  name: inspec
+
+provisioner:
+  name: shell
+  command: hostname
+
+lifecycle:
+  pre_verify:
+  - local: echo "Waiting for instance to complete startup..."
+  - local: sleep 2
+
+platforms:
+  - name: test
+    driver:
+      image:
+        - file: <%= ENV['OUTPUT'] || './output/debian.qcow2' %>
+      display: gtk
+      hostname: kitchen-ci.test
+      username: debian
+      password: debian
+
+suites:
+  - name: default
+    verifier:
+      inspec_tests:
+        - inspec-tests.rb
+
+# vim:ft=eruby

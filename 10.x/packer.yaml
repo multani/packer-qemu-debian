@@ -1,0 +1,90 @@
+# vim:tabstop=2 shiftwidth=2 softtabstop=2
+
+# `disk_detect_zeroes` needs Packer 1.3.2+
+min_packer_version: "1.3.2"
+
+
+description: |
+  This builder builds a QEMU image from a Debian "netinst" CD ISO file.
+  It contains a few basic tools and can be use as a "cloud image" alternative.
+
+variables:
+  # Current images in https://cdimage.debian.org/cdimage/release/
+  # Previous versions are in https://cdimage.debian.org/cdimage/archive/
+  source_iso: https://cdimage.debian.org/cdimage/buster_di_rc1/amd64/iso-cd/debian-buster-DI-rc1-amd64-netinst.iso
+  source_checksum_url: https://cdimage.debian.org/cdimage/buster_di_rc1/amd64/iso-cd/SHA256SUMS
+
+  output_dir: output
+  output_name: debian.qcow2
+  ssh_username: debian
+  ssh_password: debian
+
+
+builders:
+- type: qemu
+
+  iso_url: "{{ user `source_iso` }}"
+  iso_checksum_url: "{{ user `source_checksum_url` }}"
+  iso_checksum_type: sha256
+
+  disk_size: 2000
+  format: qcow2
+  accelerator: kvm
+
+  headless: true
+  # Configure qemu to use GTK, when not running in headless mode.
+  # See: https://github.com/hashicorp/packer/issues/6136
+  qemuargs:
+    - ["-display", "gtk"]
+
+  # Serve the `http` directory via HTTP, used for preseeding the Debian installer.
+  http_directory: http
+  http_port_min: 9990
+  http_port_max: 9999
+
+  # SSH ports to redirect to the VM being built
+  ssh_host_port_min: 2222
+  ssh_host_port_max: 2229
+  # This user is configured in the preseed file.
+  ssh_username: "{{ user `ssh_username` }}"
+  ssh_password: "{{ user `ssh_password` }}"
+  ssh_wait_timeout: 1000s
+
+  shutdown_command: "echo '{{ user `ssh_password` }}'  | sudo -S /sbin/shutdown -hP now"
+
+  # Builds a compact image
+  disk_compression: true
+  disk_discard: unmap
+  skip_compaction: false
+  disk_detect_zeroes: unmap # Requires Packer 1.3.2+
+
+  output_directory: "{{ user `output_dir` }}"
+  vm_name: "{{ user `output_name` }}"
+
+  boot_wait: 1s
+  boot_command:
+    - "<down><tab>" # non-graphical install
+    - "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg "
+    - "language=en locale=en_US.UTF-8 "
+    - "country=CH keymap=fr "
+    - "hostname=packer domain=test " # Should be overriden after DHCP, if available
+    - "<enter><wait>"
+
+
+provisioners:
+- type: file
+  source: configure-qemu-image.sh
+  destination: /tmp/configure-qemu-image.sh
+
+- type: shell
+  inline:
+    - sh -cx "sudo bash /tmp/configure-qemu-image.sh"
+
+post-processors:
+- type: manifest
+  keep_input_artifact: true
+
+- type: shell-local
+  inline:
+    - "./post-process.sh {{ user `output_dir` }}/{{ user `output_name` }}"
+  keep_input_artifact: true
