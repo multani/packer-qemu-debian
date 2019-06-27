@@ -38,6 +38,8 @@ apt-get install --no-install-recommends \
     curl \
     less \
     localepurge \
+    python3-distutils \
+    rsync \
     vim \
     --yes
 
