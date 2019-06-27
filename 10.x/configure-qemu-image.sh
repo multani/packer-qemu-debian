@@ -26,8 +26,8 @@ update-initramfs -u
 apt-get update
 apt-get install --no-install-recommends \
     acpid \
-    cloud-init \
     cloud-guest-utils \
+    cloud-init \
     lsb-release \
     net-tools \
     qemu-guest-agent \
@@ -38,6 +38,8 @@ apt-get install --no-install-recommends \
     curl \
     less \
     localepurge \
+    python3-distutils \
+    rsync \
     vim \
     --yes
 
@@ -99,6 +101,15 @@ cat <<EOF > /etc/cloud/cloud.cfg.d/99-nocloud-datasource.cfg
 datasource_list:
 - NoCloud
 - None
+EOF
+
+# Disable warning about missing datasource. This type of image may run in a
+# very special environment where we want to control what's happening, without
+# having a specific datasource provided.
+cat <<EOF > /etc/cloud/cloud.cfg.d/99-warnings.cfg
+#cloud-config
+warnings:
+  dsid_missing_source: off
 EOF
 
 # Configure cloud-init to start once multi-user has been started.
