@@ -1,7 +1,7 @@
 PACKER_FILE = packer.json
 
 OUTPUT_DIR = output
-OUTPUT_NAME = debian-10.0.rc2-1.qcow2
+OUTPUT_NAME = debian-10.0.rc2-2.qcow2
 OUTPUT = $(OUTPUT_DIR)/$(OUTPUT_NAME)
 
 PACKER_FLAGS = -var output_dir="$(OUTPUT_DIR)" -var output_name="$(OUTPUT_NAME)"

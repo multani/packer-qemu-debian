@@ -1,5 +1,10 @@
 # Releases
 
+## 10.0.rc2-2
+
+* Provide `haveged` by default, to have more entropy when a new VM starts.
+
+
 ## 10.0.rc2-1
 
 * Based of Debian Buster RC2
