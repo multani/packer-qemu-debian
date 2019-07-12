@@ -23,8 +23,8 @@ You can start with the following configuration:
   "variables": {
     "qemu_output_dir": "qemu-images",
     "qemu_output_name": "my-build.qcow2",
-    "qemu_source_checksum_url": "https://github.com/multani/packer-qemu-debian/releases/download/9.6.0-3/SHA256SUMS",
-    "qemu_source_iso": "https://github.com/multani/packer-qemu-debian/releases/download/9.6.0-3/debian-9.6.0-3.qcow2",
+    "qemu_source_checksum_url": "https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/SHA256SUMS",
+    "qemu_source_iso": "https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/debian-10.0.0-1.qcow2",
     "qemu_ssh_password": "debian",
     "qemu_ssh_username": "debian"
   },
@@ -78,7 +78,7 @@ $ packer build -timestamp-ui packer.json
 qemu output will be in this color.
 
 2019-01-20T12:09:19+01:00: ==> qemu: Retrieving ISO
-2019-01-20T12:09:20+01:00:     qemu: Found already downloaded, initial checksum matched, no download needed: https://github.com/multani/packer-qemu-debian/releases/download/9.6.0-3/debian-9.6.0-3.qcow2
+2019-01-20T12:09:20+01:00:     qemu: Found already downloaded, initial checksum matched, no download needed: https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/debian-10.0.0-1.qcow2
 2019-01-20T12:09:20+01:00: ==> qemu: Creating hard drive...
 2019-01-20T12:09:20+01:00: ==> qemu: Resizing hard drive...
 2019-01-20T12:09:20+01:00: ==> qemu: Found port for communicator (SSH, WinRM, etc): 2226.
@@ -130,7 +130,7 @@ provider "libvirt" {
 resource "libvirt_volume" "debian" {
   name   = "debian.qcow2"
   pool   = "default"
-  source = "https://github.com/multani/packer-qemu-debian/releases/download/9.6.0-3/debian-9.6.0-3.qcow2"
+  source = "https://github.com/multani/packer-qemu-debian/releases/download/10.0.0-1/debian-10.0.0-1.qcow2"
   format = "qcow2"
 }
 
