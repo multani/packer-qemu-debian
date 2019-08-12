@@ -3,3 +3,5 @@
 .kitchen/
 output/
 packer_cache/
+.terraform/
+terraform.tfstate*
