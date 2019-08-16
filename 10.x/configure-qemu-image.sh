@@ -44,6 +44,28 @@ apt-get install --no-install-recommends \
     --yes
 
 
+# Configure the main network interface as "auto".
+# This ensures the main network interface is up when the systemd
+# "networking.service" has completed.
+# This in turn allows subsequent services to rely on the ability to query the
+# network settings of that main interface.
+cat <<EOF > /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto ens3
+allow-hotplug ens3
+iface ens3 inet dhcp
+EOF
+
+
 # Reconfigure cloud-init
 # Don't "lock" the "debian" user password. It is configured directly by the
 # preseeding and all the rest depends on it. Cloud-init, with the default
