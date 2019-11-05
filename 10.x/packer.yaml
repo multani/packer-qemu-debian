@@ -27,7 +27,7 @@ builders:
   iso_checksum_url: "{{ user `source_checksum_url` }}"
   iso_checksum_type: sha256
 
-  disk_size: 2000
+  disk_size: 8000
   format: qcow2
   accelerator: kvm
 
