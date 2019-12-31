@@ -32,11 +32,7 @@ builders:
   accelerator: kvm
 
   headless: true
-  # Configure qemu to use GTK, when not running in headless mode.
-  # See: https://github.com/hashicorp/packer/issues/6136
   qemuargs:
-    - ["-display", "gtk"]
-
     # The Debian installer warns with a dialog box if there's not enough memory
     # in the system.
     - [ "-m", "1000M" ]
