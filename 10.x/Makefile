@@ -20,7 +20,7 @@ really-clean: clean
 
 %.json: %.yaml
 	@echo "Convert YAML to JSON: $< => $@"
-	@python3 -c "import yaml, json, sys; json.dump(yaml.load(sys.stdin), sys.stdout, indent=2, sort_keys=True)" < $< > $@
+	@python3 -c "import yaml, json, sys; json.dump(yaml.safe_load(sys.stdin), sys.stdout, indent=2, sort_keys=True)" < $< > $@
 
 variables.yaml:
 	@if [ ! -f "$(@:.json=.yaml)" ]; then \
