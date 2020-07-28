@@ -1,7 +1,8 @@
 PACKER_FILE = packer.json
 
 OUTPUT_DIR = output
-OUTPUT_NAME = debian-$(shell git describe).qcow2
+VERSION = $(shell git describe)
+OUTPUT_NAME = debian-$(VERSION).qcow2
 OUTPUT = $(OUTPUT_DIR)/$(OUTPUT_NAME)
 
 PACKER_FLAGS = -var output_dir="$(OUTPUT_DIR)" -var output_name="$(OUTPUT_NAME)"
@@ -39,7 +40,7 @@ validate: $(PACKER_FILE)
 $(KITCHEN_DISK): $(KITCHEN_BASE_IMAGE)
 	qemu-img create -f qcow2 -o backing_file=$< $@ 10G
 
-test create setup converge destroy verify list: .gems
+test create setup converge destroy verify list login: .gems
 	OUTPUT=./$(OUTPUT) bundle exec kitchen $@
 
 .gems: Gemfile
