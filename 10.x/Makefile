@@ -1,4 +1,4 @@
-PACKER_FILE = packer.json
+PACKER_FILE = packer.pkr.hcl
 
 OUTPUT_DIR = output
 VERSION = $(shell git describe)
@@ -13,20 +13,11 @@ all:
 	$(MAKE) $(OUTPUT) create converge verify destroy
 
 clean:
-	rm -rf $(OUTPUT_DIR) *.json
+	rm -rf $(OUTPUT_DIR)
 
 really-clean: clean
 	rm -rf packer_cache/ .kitchen/ .gems/
 
-
-%.json: %.yaml
-	@echo "Convert YAML to JSON: $< => $@"
-	@python3 -c "import yaml, json, sys; json.dump(yaml.safe_load(sys.stdin), sys.stdout, indent=2, sort_keys=True)" < $< > $@
-
-variables.yaml:
-	@if [ ! -f "$(@:.json=.yaml)" ]; then \
-		echo "{}" > $@; \
-	fi
 
 $(OUTPUT): $(PACKER_FILE)
 	$(MAKE) build
