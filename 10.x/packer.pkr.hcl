@@ -10,7 +10,7 @@ variable "output_name" {
 
 variable "source_checksum_url" {
   type    = string
-  default = "file:https://cdimage.debian.org/cdimage/release/10.5.0/amd64/iso-cd/SHA256SUMS"
+  default = "file:https://cdimage.debian.org/cdimage/archive/10.7.0/amd64/iso-cd/SHA256SUMS"
 }
 
 variable "source_iso" {
@@ -19,8 +19,9 @@ variable "source_iso" {
 * Previous versions are in https://cdimage.debian.org/cdimage/archive/
 EOF
 
-  type    = string
-  default = "https://cdimage.debian.org/cdimage/release/10.5.0/amd64/iso-cd/debian-10.5.0-amd64-netinst.iso"
+  type = string
+  #default = "https://cdimage.debian.org/cdimage/release/10.8.0/amd64/iso-cd/debian-10.8.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/cdimage/archive/10.7.0/amd64/iso-cd/debian-10.7.0-amd64-netinst.iso"
 }
 
 variable "ssh_password" {
