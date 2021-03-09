@@ -1,7 +1,7 @@
 PACKER_FILE = packer.pkr.hcl
 
 OUTPUT_DIR = output
-VERSION = 10.0.7-1
+VERSION = $(shell git describe)
 OUTPUT_NAME = debian-$(VERSION).qcow2
 OUTPUT = $(OUTPUT_DIR)/$(OUTPUT_NAME)
 
