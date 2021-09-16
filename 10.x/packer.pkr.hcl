@@ -8,20 +8,11 @@ variable "output_name" {
   default = "debian.qcow2"
 }
 
-variable "source_checksum_url" {
+variable "version" {
   type    = string
-  default = "file:https://cdimage.debian.org/cdimage/release/10.10.0/amd64/iso-cd/SHA256SUMS"
+  default = "10.10.0"
 }
 
-variable "source_iso" {
-  description = <<EOF
-* Current images in https://cdimage.debian.org/cdimage/release/
-* Previous versions are in https://cdimage.debian.org/cdimage/archive/
-EOF
-
-  type    = string
-  default = "https://cdimage.debian.org/cdimage/release/10.10.0/amd64/iso-cd/debian-10.10.0-amd64-netinst.iso"
-}
 
 variable "ssh_password" {
   type    = string
@@ -36,7 +27,26 @@ variable "ssh_username" {
 # "timestamp" template function replacement
 locals {
   timestamp = regex_replace(timestamp(), "[- TZ:]", "")
+
+  archs = {
+      #amd64 = {
+        #cpu_arch = "x86_64"
+        #version = var.version
+        #arch = "amd64"
+        #machine_type = "pc"
+          # accelerator = "kvm"
+      #}
+
+      arm64 = {
+        cpu_arch = "aarch64"
+        version = var.version
+        arch = "arm64"
+        machine_type = "raspi3b"
+  accelerator = "tcg"
+      }
+  }
 }
+
 
 
 build {
@@ -45,7 +55,26 @@ This builder builds a QEMU image from a Debian "netinst" CD ISO file.
 It contains a few basic tools and can be use as a "cloud image" alternative.
 EOF
 
-  sources = ["source.qemu.debian"]
+  dynamic "source" {
+    for_each = local.archs
+
+    # equivalent to `source "amazon-ebs.base"`
+    labels = ["qemu.debian"]
+
+    content {
+      # "amazon-ebs.arm64" instead of "amazon-ebs.base" (the label)
+      name = source.value.cpu_arch
+
+      # Current images in https://cdimage.debian.org/cdimage/release/
+      # Previous versions are in https://cdimage.debian.org/cdimage/archive/
+      iso_url = "https://cdimage.debian.org/cdimage/release/${source.value.version}/${source.value.arch}/iso-cd/debian-${source.value.version}-${source.value.arch}-netinst.iso"
+      iso_checksum = "file:https://cdimage.debian.org/cdimage/release/${source.value.version}/${source.value.arch}/iso-cd/SHA256SUMS"
+      qemu_binary = "qemu-system-${source.value.cpu_arch}"
+
+      machine_type = source.value.machine_type
+      accelerator = source.value.accelerator
+    }
+  }
 
   provisioner "file" {
     destination = "/tmp/configure-qemu-image.sh"
@@ -72,15 +101,11 @@ EOF
 
 
 source qemu "debian" {
-  iso_url      = "${var.source_iso}"
-  iso_checksum = "${var.source_checksum_url}"
-
   cpus = 1
   # The Debian installer warns with a dialog box if there's not enough memory
   # in the system.
-  memory      = 1000
+  memory      = 1024
   disk_size   = 8000
-  accelerator = "kvm"
 
   headless = false
 
