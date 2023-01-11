@@ -170,6 +170,9 @@ for more details.
 
 ## How to build these images?
 ```shell
+git tag -a -m "Debian 11.6.0-1" 11.6.0-1
+git describe --debug
+git push origin 11.6.0-1
 make clean
 make
 ```
