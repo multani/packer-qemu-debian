@@ -3,7 +3,6 @@
 This repository contains [Packer](https://www.packer.io) configuration to build
 "cloud-like" Debian images for QEMU.
 
-
 ## How to use these images?
 
 ### As an alternative Packer builder
@@ -167,3 +166,16 @@ resource "libvirt_domain" "test" {
 See the [provider
 documentation](https://github.com/dmacvicar/terraform-provider-libvirt/tree/master/website/docs)
 for more details.
+
+
+## How to build these images?
+```shell
+make clean
+make
+```
+or
+```shell
+eatmydata make OUTPUT_DIR=/tmp/output clean
+eatmydata make OUTPUT_DIR=/tmp/output
+```
+

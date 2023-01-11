@@ -214,8 +214,11 @@ touch /var/log/lastlog
 chown root:utmp /var/log/lastlog
 chmod 664 /var/log/lastlog
 
+# Display some usage information
+df -h
 
 # Free all unused storage block. This makes the final image smaller.
+echo "RUN fstrim --all --verbose"
 fstrim --all --verbose
 
 
