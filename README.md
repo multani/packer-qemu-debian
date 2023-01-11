@@ -178,6 +178,7 @@ or
 git add README.md
 export VER=11.6.0-1 
 git commit -m "Debian $VER"
+git tag -d $VER
 git tag -a -m "Debian $VER" $VER
 git describe --debug
 git push origin
