@@ -177,7 +177,8 @@ or
 ```shell
 git add README.md
 export VER=11.6.0-1 
-git commit -m "Debian $VER" && git tag -a -m "Debian $VER" $VER
+git commit -m "Debian $VER"
+git tag -a -m "Debian $VER" $VER
 git describe --debug
 git push origin $VER
 eatmydata make OUTPUT_DIR=/tmp/output clean
