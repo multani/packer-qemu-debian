@@ -170,14 +170,13 @@ for more details.
 
 ## How to build these images?
 ```shell
-git tag -a -m "Debian 11.6.0-1" 11.6.0-1
-git describe --debug
-git push origin 11.6.0-1
 make clean
 make
 ```
 or
 ```shell
+VER=11.6.0-1 git add README.md && git commit -m "Debian $VER" && git tag -a -m "Debian $VER" $VER && git push origin $VER
+git describe --debug
 eatmydata make OUTPUT_DIR=/tmp/output clean
 eatmydata make OUTPUT_DIR=/tmp/output
 ```
