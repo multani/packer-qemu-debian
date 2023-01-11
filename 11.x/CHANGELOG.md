@@ -2,7 +2,7 @@
 
 ## 11.6.0-1
 
-* Based of Debian bullseye
+* Based of Debian Bullseye
 
 ## 10.0.rc2-2
 
