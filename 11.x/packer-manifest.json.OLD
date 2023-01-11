@@ -1,0 +1,33 @@
+{
+  "builds": [
+    {
+      "name": "debian",
+      "builder_type": "qemu",
+      "build_time": 1635909623,
+      "files": [
+        {
+          "name": "output/debian-11.1.0-1.qcow2",
+          "size": 413394944
+        }
+      ],
+      "artifact_id": "VM",
+      "packer_run_uuid": "25cf9fd7-f035-5d17-ab90-9ab1d5d7a44b",
+      "custom_data": null
+    },
+    {
+      "name": "debian",
+      "builder_type": "qemu",
+      "build_time": 1635910350,
+      "files": [
+        {
+          "name": "output/debian-11.1.0-1.qcow2",
+          "size": 413532160
+        }
+      ],
+      "artifact_id": "VM",
+      "packer_run_uuid": "3b715aa7-d96f-cdde-d831-5cf6d64e3236",
+      "custom_data": null
+    }
+  ],
+  "last_run_uuid": "3b715aa7-d96f-cdde-d831-5cf6d64e3236"
+}
