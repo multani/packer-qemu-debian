@@ -1,5 +1,9 @@
 # Releases
 
+## 11.6.0-3
+
+* Based of Debian bullseye
+
 ## 10.0.rc2-2
 
 * Provide `haveged` by default, to have more entropy when a new VM starts.
