@@ -175,8 +175,11 @@ make
 ```
 or
 ```shell
-VER=11.6.0-1 git add README.md && git commit -m "Debian $VER" && git tag -a -m "Debian $VER" $VER && git push origin $VER
+git add README.md
+export VER=11.6.0-1 
+git commit -m "Debian $VER" && git tag -a -m "Debian $VER" $VER
 git describe --debug
+git push origin $VER
 eatmydata make OUTPUT_DIR=/tmp/output clean
 eatmydata make OUTPUT_DIR=/tmp/output
 ```
